@@ -2,29 +2,36 @@ import math
 
 # game settings
 WIDTH, HEIGHT = 896, 512
-minimap_size = 30
-mouse_speed = 1.7
+minimap_size = 15
+mouse_speed = 2
+player_speed = 2.5
+FPS = 30
+shift_control = 130
+shift_speed = 3
+line_y2 = 20
 
 # player settings
-player_coord = [WIDTH // 2, HEIGHT // 2]
+player_coord = [minimap_size * 1.5, minimap_size * 1.5]
 
 # map settings
+WALLS_SIZE = 15
 map_world = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
-    [1, 0, 0, 1, 0, 0, 0, 1, 0, 1],
-    [1, 1, 0, 0, 1, 0, 0, 1, 0, 1],
     [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 2, 2, 2, 0, 0, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-#ray cating settings
-FOV = math.pi / 3 #fild of view
-NUM_RAYS = 9 #number of rays
-DELTA_ANGLE = FOV / NUM_RAYS #the angle between the beams
-MAX_DEPTH = 800 #beam length
+
+# raycasting settings
+FOV = math.pi / 3  # field of view
+NUM_RAYS = 301  # number of rays
+DELTA_ANGLE = FOV / NUM_RAYS  # the angle between the beams
+MAX_DEPTH = 800  # beam length
 HALF_FOV = FOV / 2
