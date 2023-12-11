@@ -1,20 +1,19 @@
 import pygame
 import sys
-import math
-from settings import *
 from raycasting import *
+from mini_map_draw import *
+from collisions import can_go
 
 if __name__ == '__main__':
-    # Инициализация Pygame
+    # Pygame initialization
     pygame.init()
 
-    # Создание окна
+    # Window creation
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Моя игра на Pygame")
+    pygame.display.set_caption("Abyssal conundrum")
 
-    # Инициализация переменных времени и FPS
+    # Initialization of time variables and FPS
     clock = pygame.time.Clock()
-    FPS = 60
 
     running = True
 
@@ -28,13 +27,14 @@ if __name__ == '__main__':
 
     angle = 180
 
-    # Основной игровой цикл
+    shift_event = False
+
+    # The main game cycle
 
     while running:
-        screen.fill("black")
-
-
-        # Обработка событий
+        screen.fill("grey")
+        pygame.draw.rect(screen, (65, 105, 225), (0, 0, WIDTH, HEIGHT / 2))
+        # event processing
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -52,6 +52,9 @@ if __name__ == '__main__':
                 if event.key == pygame.K_a:
                     rot_l = True
 
+                if event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT:
+                    shift_event = True
+
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
                     mot_w = False
@@ -65,46 +68,54 @@ if __name__ == '__main__':
                 if event.key == pygame.K_a:
                     rot_l = False
 
-        if mot_w:
-            player_coord[0] += (minimap_size / 30) * (player_coord[0] - player_coord[0] + math.cos(math.radians(angle)))
-            player_coord[1] += (minimap_size / 30) * (player_coord[1] - player_coord[1] + math.sin(math.radians(angle)))
+                if event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT:
+                    shift_event = False
 
-        if mot_s:
-            player_coord[0] -= (minimap_size / 30) * (player_coord[0] - player_coord[0] + math.cos(math.radians(angle)))
-            player_coord[1] -= (minimap_size / 30) * (player_coord[1] - player_coord[1] + math.sin(math.radians(angle)))
+        # In the function can_go() the last argument is the player’s direction. True - forward; False - backward
+
+        if mot_w and can_go(player_coord[0], player_coord[1], angle, True):
+            player_coord[0] += (minimap_size / 30) * (math.cos(math.radians(angle))) * player_speed
+            player_coord[1] += (minimap_size / 30) * (math.sin(math.radians(angle))) * player_speed
+
+        if mot_s and can_go(player_coord[0], player_coord[1], angle, False):
+            player_coord[0] -= (minimap_size / 30) * (math.cos(math.radians(angle))) * player_speed
+            player_coord[1] -= (minimap_size / 30) * (math.sin(math.radians(angle))) * player_speed
+
+        if mot_w and can_go(player_coord[0], player_coord[1], angle, True) and shift_event and line_y2 < 150:
+            player_coord[0] += (minimap_size / 30) * (math.cos(math.radians(angle))) * shift_speed
+            player_coord[1] += (minimap_size / 30) * (math.sin(math.radians(angle))) * shift_speed
+
+        if mot_s and can_go(player_coord[0], player_coord[1], angle, False) and shift_event and line_y2 < 150:
+            player_coord[0] -= (minimap_size / 30) * (math.cos(math.radians(angle))) * shift_speed
+            player_coord[1] -= (minimap_size / 30) * (math.sin(math.radians(angle))) * shift_speed
 
         if rot_r:
-            angle += mouse_speed
-            angle %= 360
+            angle += mouse_speed * 2
+            angle %= 360 * NUM_RAYS
 
         if rot_l:
-            angle -= mouse_speed
+            angle -= mouse_speed * 2
             angle %= 360
 
-        # отрисовка миникарты
+        if shift_event and line_y2 < 150:
+            line_y2 += 4
 
-        len_map = len(map_world)
-        for i in range(len_map):
-            for j in range(len_map):
-                if map_world[i][j]:
-                    pygame.draw.rect(screen, "white", (i * minimap_size, j * minimap_size,
-                                     minimap_size, minimap_size))
+        if not mot_w and not mot_s and line_y2 > 20 and not shift_event:
+            line_y2 -= 1
 
-        pygame.draw.circle(screen, "white", player_coord, minimap_size / 5)
+        # mini-map drawing
 
         ray_casting(screen, player_coord, angle)
 
-        x = player_coord[0] + math.cos(math.radians(angle)) * 1032
-        y = player_coord[1] + math.sin(math.radians(angle)) * 1032
-        pygame.draw.line(screen, "red", player_coord, (x, y))
+        draw_minimap(screen, map_world, minimap_size, player_coord)
+        pygame.draw.line(screen, 'red', (150, line_y2), (150, 150), 10)
 
-
-        # Отображение изменений на экране
+        # Display changes on the screen
         pygame.display.flip()
 
-        # Задержка времени для управления FPS
+        # Time delay for FPS management
         clock.tick(FPS)
 
-    # Завершение работы Pygame
+    # Shutting down Pygame
     pygame.quit()
     sys.exit()
