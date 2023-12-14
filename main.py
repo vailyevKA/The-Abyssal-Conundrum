@@ -4,6 +4,7 @@ from raycasting import *
 from mini_map_draw import *
 from collisions import can_go
 
+#TEST
 if __name__ == '__main__':
     # Pygame initialization
     pygame.init()
