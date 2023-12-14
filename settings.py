@@ -7,8 +7,8 @@ mouse_speed = 2
 player_speed = 2.5
 FPS = 30
 shift_control = 130
-shift_speed = 3
-line_y2 = 20
+shift_speed = 4
+line_y2 = 150
 
 # player settings
 player_coord = [minimap_size * 1.5, minimap_size * 1.5]
