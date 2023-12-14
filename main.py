@@ -73,19 +73,19 @@ if __name__ == '__main__':
 
         # In the function can_go() the last argument is the player’s direction. True - forward; False - backward
 
-        if mot_w and can_go(player_coord[0], player_coord[1], angle, True):
+        if mot_w and can_go(player_coord[0], player_coord[1], angle, True) and (not shift_event or shift_event and line_y2 < 20):
             player_coord[0] += (minimap_size / 30) * (math.cos(math.radians(angle))) * player_speed
             player_coord[1] += (minimap_size / 30) * (math.sin(math.radians(angle))) * player_speed
 
-        if mot_s and can_go(player_coord[0], player_coord[1], angle, False):
+        if mot_s and can_go(player_coord[0], player_coord[1], angle, False) and (not shift_event or shift_event and line_y2 < 20):
             player_coord[0] -= (minimap_size / 30) * (math.cos(math.radians(angle))) * player_speed
             player_coord[1] -= (minimap_size / 30) * (math.sin(math.radians(angle))) * player_speed
 
-        if mot_w and can_go(player_coord[0], player_coord[1], angle, True) and shift_event and line_y2 < 150:
+        if mot_w and can_go(player_coord[0], player_coord[1], angle, True) and shift_event and 20 < line_y2 < 150:
             player_coord[0] += (minimap_size / 30) * (math.cos(math.radians(angle))) * shift_speed
             player_coord[1] += (minimap_size / 30) * (math.sin(math.radians(angle))) * shift_speed
 
-        if mot_s and can_go(player_coord[0], player_coord[1], angle, False) and shift_event and line_y2 < 150:
+        if mot_s and can_go(player_coord[0], player_coord[1], angle, False) and shift_event and 20 < line_y2 < 150:
             player_coord[0] -= (minimap_size / 30) * (math.cos(math.radians(angle))) * shift_speed
             player_coord[1] -= (minimap_size / 30) * (math.sin(math.radians(angle))) * shift_speed
 
@@ -97,18 +97,19 @@ if __name__ == '__main__':
             angle -= mouse_speed * 2
             angle %= 360
 
-        if shift_event and line_y2 < 150:
-            line_y2 += 4
+        if shift_event and line_y2 >= 20:
+            line_y2 -= 4
 
-        if not mot_w and not mot_s and line_y2 > 20 and not shift_event:
-            line_y2 -= 1
+        if line_y2 <= 150 and not shift_event:
+            line_y2 += 1
 
         # mini-map drawing
 
         ray_casting(screen, player_coord, angle)
 
         draw_minimap(screen, map_world, minimap_size, player_coord)
-        pygame.draw.line(screen, 'red', (150, line_y2), (150, 150), 10)
+
+        pygame.draw.line(screen, 'red', (150, 20), (150, line_y2), 7)
 
         # Display changes on the screen
         pygame.display.flip()
