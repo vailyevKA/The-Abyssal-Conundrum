@@ -9,6 +9,8 @@ class Board:
         self.left = 10
         self.top = 10
         self.cell_size = 30
+        self.wall = 1
+        self.wallc = 'white'
 
     def render(self, screen):
         color = 1
@@ -18,6 +20,7 @@ class Board:
                 clr = 'white' if color else 'black'
                 if col_v:
                     rect_width = 0
+                    clr = 'white' if self.board[row][col] == 1 else 'purple'
                 else:
                     rect_width = 1
                 pygame.draw.rect(screen, pygame.Color(clr),
@@ -49,7 +52,10 @@ class Board:
         if cell_pos is None:
             return
         row, col = cell_pos[::-1]
-        self.board[row][col] = not self.board[row][col]
+        if not self.board[row][col]:
+            self.board[row][col] = self.wall
+        else:
+            self.board[row][col] = 0
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
@@ -58,11 +64,16 @@ class Board:
     def return_matrix(self):
         return self.board
 
+    def change_color(self, c, wallc):
+        self.wall = c
+        self.wallc = wallc
 
-def main():
+
+def makemap():
     pygame.init()
     a, b = list(
-        map(int, input('Введите количество клеток сначала по вертикали, потом по горизонтали через пробел\n>>').split()))
+        map(int,
+            input('Введите количество клеток сначала по вертикали, потом по горизонтали через пробел\n>>').split()))
     size = width, height = a * 50 + 40, b * 50 + 40
     screen = pygame.display.set_mode(size)
     board = Board(a, b)
@@ -75,12 +86,25 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 board.get_click(event.pos)
                 with open('map_out.txt', 'w') as f:
-                    f.write('map_world = [\n')
-                    for i in board.return_matrix()[:-1]:
-                        print('   ', [0 if j == 0 else -1 for j in i], file=f, end=',\n')
-                    print('    ', [0 if j == 0 else -1 for j in i], '\n]', file=f, sep='')
+                    for i in board.return_matrix():
+                        print(*[j if j else 0 for j in i], file=f, end='\n')
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_2:
+                    board.change_color(2, 'purple')
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    board.change_color(1, 'white')
+
         screen.fill((0, 0, 0))
         board.render(screen)
         pygame.display.flip()
     pygame.quit()
-main()
+
+
+makemap()
+
+
+
+# #вставить вместо задания карты
+# with open('map_out.txt', 'r') as f:
+#     map_world = [list(map(int, i.split())) for i in f.readlines()]
