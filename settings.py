@@ -15,18 +15,11 @@ player_coord = [minimap_size * 1.5, minimap_size * 1.5]
 
 # map settings
 WALLS_SIZE = 15
-map_world = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
-    [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-    [1, 0, 2, 2, 2, 0, 0, 1, 0, 1],
-    [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-]
+map_world = []
+with open('map_out.txt') as map:
+    map = map.readlines()
+    for i in map:
+        map_world.append([int(j) for j in i.split()])
 
 
 # raycasting settings
