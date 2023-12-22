@@ -1,4 +1,5 @@
 import pygame
+import csv
 
 
 class Board:
@@ -56,6 +57,9 @@ class Board:
             self.board[row][col] = self.wall
         else:
             self.board[row][col] = 0
+        with open('map_out.csv', 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(self.board)
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
@@ -71,9 +75,8 @@ class Board:
 
 def makemap():
     pygame.init()
-    a, b = list(
-        map(int,
-            input('Введите количество клеток сначала по вертикали, потом по горизонтали через пробел\n>>').split()))
+    a, b = list(map(int, input(
+        'Введите количество клеток без учёта стенок сначала по вертикали, потом по горизонтали через пробел\n>>').split()))
     size = width, height = a * 50 + 40, b * 50 + 40
     screen = pygame.display.set_mode(size)
     board = Board(a, b)
@@ -85,9 +88,6 @@ def makemap():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 board.get_click(event.pos)
-                with open('map_out.txt', 'w') as f:
-                    for i in board.return_matrix():
-                        print(*[j if j else 0 for j in i], file=f, end='\n')
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_2:
                     board.change_color(2, 'purple')
@@ -105,6 +105,24 @@ makemap()
 
 
 
+
 # #вставить вместо задания карты
-# with open('map_out.txt', 'r') as f:
-#     map_world = [list(map(int, i.split())) for i in f.readlines()]
+# import csv
+# 
+# def load_map_from_csv(filepath):
+#     try:
+#         with open(filepath, 'r', newline='') as f:
+#             reader = csv.reader(f)
+#             map_world = [list(map(int, row)) for row in reader]
+#             for row in map_world:
+#                 row.insert(0, 1)
+#                 row.append(1)
+#             map_world.insert(0, [1] * len(map_world[0]))
+#             map_world.append([1] * len(map_world[0]))  
+#         return map_world
+#     except FileNotFoundError:
+#         print(f"Файл {filepath} не найден.")
+#         return []
+# 
+# map_world = load_map_from_csv('map_out.csv')
+
