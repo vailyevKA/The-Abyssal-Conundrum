@@ -3,9 +3,10 @@ import math
 
 
 def draw_minimap(screen, map_world, minimap_size, player_coord):
-    len_map = len(map_world)
-    for i in range(len_map):
-        for j in range(len_map):
+    len_map_s = len(map_world)
+    len_map_r = len(map_world[0])
+    for i in range(len_map_s):
+        for j in range(len_map_r):
             if map_world[i][j]:
                 pygame.draw.rect(screen, "white", (i * minimap_size, j * minimap_size,
                                                    minimap_size, minimap_size))
