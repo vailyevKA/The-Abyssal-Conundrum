@@ -5,6 +5,7 @@ from mini_map_draw import *
 from collisions import can_go
 
 if __name__ == '__main__':
+    print(map_world)
     # Pygame initialization
     pygame.init()
 
@@ -109,7 +110,7 @@ if __name__ == '__main__':
 
         draw_minimap(screen, map_world, minimap_size, player_coord)
 
-        pygame.draw.line(screen, 'red', (150, 20), (150, line_y2), 7)
+        pygame.draw.line(screen, 'red', (len(map_world) * minimap_size + 3.5, 20), (len(map_world) * minimap_size + 3.5, line_y2), 7)
 
         # Display changes on the screen
         pygame.display.flip()
