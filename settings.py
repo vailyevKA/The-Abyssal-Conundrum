@@ -21,6 +21,9 @@ with open('map_out.txt') as map:
     for i in map:
         map_world.append([int(j) for j in i.split()])
 
+# bot settings
+bot_coord = [70, 50]
+bot_angle = 0
 
 # raycasting settings
 FOV = math.pi / 3  # field of view
