@@ -3,6 +3,7 @@ import sys
 from raycasting import *
 from mini_map_draw import *
 from collisions import can_go
+from bot import bot_paint
 
 if __name__ == '__main__':
     print(map_world)
@@ -109,6 +110,8 @@ if __name__ == '__main__':
         ray_casting(screen, player_coord, angle)
 
         draw_minimap(screen, map_world, minimap_size, player_coord)
+
+        bot_paint(screen)
 
         pygame.draw.line(screen, 'red', (len(map_world) * minimap_size + 3.5, 20), (len(map_world) * minimap_size + 3.5, line_y2), 7)
 
