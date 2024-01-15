@@ -4,6 +4,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
+from game import game
 
 
 class Settings(QMainWindow):
@@ -47,6 +48,7 @@ class MainWindow(QMainWindow):
         self.label.adjustSize()
 
         self.pushButton_4.clicked.connect(self.open_settings)
+        self.pushButton_2.clicked.connect(self.open_game)
 
     def closeSettings(self):
         self.settings.save_settings()
@@ -76,3 +78,10 @@ class MainWindow(QMainWindow):
 
         self.settings.show()
         self.close()
+
+    def open_game(self):
+        self.close()
+        try:
+            game()
+        except Exception as exc:
+            print(exc)
