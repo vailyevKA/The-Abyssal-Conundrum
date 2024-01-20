@@ -57,8 +57,8 @@ def game(new_game=False, my_game=False, line_y2=150):
             r_y_ = random.randint(1, len(map_world) - 1)
             r_x_ = random.randint(1, len(map_world[0]) - 1)
 
-        bot_coord[0] = minimap_size * r_x + 0.5 * minimap_size
-        bot_coord[1] = minimap_size * r_y + 0.5 * minimap_size
+        bot_coord[0] = minimap_size * r_y_ + 0.5 * minimap_size
+        bot_coord[1] = minimap_size * r_x_ + 0.5 * minimap_size
     # Pygame initialization
     pygame.init()
 
@@ -271,6 +271,7 @@ def game(new_game=False, my_game=False, line_y2=150):
                     play_music.pause_music()
                     play_music.play_steps('sounds\\win.mp3')
                     time.sleep(1.5)
+                    break
 
                 else:
                     cur_.execute(f"""UPDATE settings

@@ -20,23 +20,18 @@ class Board:
         n = self.height
         m = self.width
 
-        level = [[random.choice([1, 2]) for _ in range(m)] for _ in range(n)]
-        start_x, start_y = random.randint(0, n - 1), random.randint(0, m - 1)
-        level[start_x][start_y] = 0
-        stack = [(start_x, start_y)]
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        total_cells = n * m
+        num_zeros = int(total_cells * 0.60)
 
-        while stack:
-            x, y = stack.pop()
-            for dx, dy in directions:
-                nx, ny = x + dx, y + dy
-                if 0 <= nx < n and 0 <= ny < m and level[nx][ny] != 0:
-                    adjacent_zeros = sum(
-                        [0 <= nx + dx < n and 0 <= ny + dy < m and level[nx + dx][ny + dy] == 0 for dx, dy in
-                         directions])
-                    if adjacent_zeros == 1:
-                        level[nx][ny] = 0
-                        stack.append((nx, ny))
+        level_flat = [0] * num_zeros + [random.choice([1, 2]) for _ in range(total_cells - num_zeros)]
+
+        random.shuffle(level_flat)
+        level = [level_flat[i * m:(i + 1) * m] for i in range(n)]
+
+        for i in range(n):
+            level[i][0] = level[i][m - 1] = random.choice([1, 2])
+        for j in range(m):
+            level[0][j] = level[n - 1][j] = random.choice([1, 2])
 
         self.board = copy.deepcopy(level)
 
