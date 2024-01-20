@@ -271,7 +271,6 @@ def game(new_game=False, my_game=False, line_y2=150):
                     play_music.pause_music()
                     play_music.play_steps('sounds\\win.mp3')
                     time.sleep(1.5)
-                    break
 
                 else:
                     cur_.execute(f"""UPDATE settings
