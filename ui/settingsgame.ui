@@ -97,7 +97,7 @@
     <string notr="true">background-color: rgb(227, 210, 210);</string>
    </property>
    <property name="text">
-    <string>средние</string>
+    <string>Средние</string>
    </property>
   </widget>
   <widget class="QPushButton" name="hight_graphics">
