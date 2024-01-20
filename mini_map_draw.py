@@ -15,5 +15,4 @@ def draw_minimap(screen, map_world, minimap_size, player_coord):
                                                    minimap_size, minimap_size))
 
     pygame.draw.circle(screen, "white", player_coord, minimap_size / 5)
-    pygame.draw.rect(screen, 'black', (0, 0,
-                                       minimap_size * len_map_r, minimap_size * len_map_s), 2)
+    pygame.draw.rect(screen, 'black', (0, 0, minimap_size * len_map_s, minimap_size * len_map_r), 2)

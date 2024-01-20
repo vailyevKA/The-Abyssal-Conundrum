@@ -28,12 +28,10 @@ class Board:
         random.shuffle(level_flat)
         level = [level_flat[i * m:(i + 1) * m] for i in range(n)]
 
-        for i in range(n):
-            level[i][0] = level[i][m - 1] = random.choice([1, 2])
-        for j in range(m):
-            level[0][j] = level[n - 1][j] = random.choice([1, 2])
-
         self.board = copy.deepcopy(level)
+        with open('save\\map_out.csv', 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(self.board)
 
     def render(self, screen):
         color = 1

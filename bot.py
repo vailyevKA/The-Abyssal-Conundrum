@@ -1,5 +1,4 @@
 import random
-
 from settings import *
 from game import *
 import pygame

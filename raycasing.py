@@ -33,7 +33,7 @@ def ray_casting(screen, pos, angle):
             except IndexError:
                 continue
 
-        height_rect = (WALLS_SIZE / dist) * HEIGHT
+        height_rect = (WALLS_SIZE / (dist + 0.0000000000001)) * HEIGHT
         width_rect = WIDTH / NUM_RAYS
         if wall == 1:
             r = (255 - dist) / 2
@@ -55,7 +55,7 @@ def ray_casting(screen, pos, angle):
         pygame.draw.rect(screen, (r, g, b),
                          (i * width_rect, (HEIGHT - height_rect) / 2, width_rect + 1, height_rect))
         if is_draw_bot:
-            height_rect_bot = (WALLS_SIZE / draw_bot_dist + 0.0000000000001) * HEIGHT
+            height_rect_bot = (WALLS_SIZE / (draw_bot_dist + 0.0000000000001)) * HEIGHT
             monster_scale = height_rect_bot / 20
             width_rect_bot = WIDTH / NUM_RAYS
 

@@ -77,7 +77,7 @@ SHIFT – ускорение
 
 [ТЗ](https://drive.google.com/file/d/1xODTfngfSECFaphNRwCinq4V2_vXJDQq/view?usp=sharing)
 
-[EXE](https://drive.google.com/drive/folders/1FhzBg6NqdxowV16d_yx2502rqJ6rzDvJ?usp=drive_link)
+[EXE](https://drive.google.com/file/d/1O0iiEObs6hQ_xfwRAT81YvWHRgXbsZ2H/view?usp=sharing)
 
 
 
